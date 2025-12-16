@@ -1,4 +1,4 @@
-# Установка XRay с Reality + WebSocket маскировка VPN на VPS через Termux
+# Установка XRay с Reality + WebSocket маскировка VPN на VPS через Termux (testing)
 Создание наилучшего обхода в РФ с использованием Termux
 
 
