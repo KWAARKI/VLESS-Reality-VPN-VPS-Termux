@@ -1,7 +1,7 @@
-# VLESS-Reality-VPN-VPS-Termux
+# Установка XRay с Reality + WebSocket маскировка VPN на VPS через Termux
 Создание наилучшего обхода в РФ с использованием Termux
 
-# Установка XRay с Reality + WebSocket маскировка
+
 # 1. Установка XRay
 ```bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install```
 
