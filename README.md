@@ -124,6 +124,15 @@ EOF
 ```
 apt install nginx -y
 ```
+# Сгенерируйте самоподписанный SSL-сертификат (snakeoil)
+Выполните эти команды на вашем сервере:
+```
+apt install ssl-cert -y
+```
+```
+make-ssl-cert generate-default-snakeoil --force-overwrite
+```
+# Потом
 ```
 cat > /etc/nginx/sites-available/reality-proxy << 'EOF'
 server {
@@ -158,7 +167,10 @@ EOF
 ```
 ```
 ln -s /etc/nginx/sites-available/reality-proxy /etc/nginx/sites-enabled/
+```
+```
 systemctl restart nginx
+
 ```
 # 5. Запуск XRay
 ```
