@@ -185,8 +185,8 @@ ufw allow 443/tcp
 ufw --force enable
 
 KEYS=$(/usr/local/bin/xray x25519) && \
-PRIVATE_KEY=$(echo "$KEYS" | awk '/Private key:/ {print $3}') && \
-PUBLIC_KEY=$(echo "$KEYS" | awk '/Public key:/ {print $3}') && \
+PRIVATE_KEY=$(echo "$KEYS" | grep "PrivateKey" | awk -F': ' '{print $2}') && \
+PUBLIC_KEY=$(echo "$KEYS" | grep "Password" | awk -F': ' '{print $2}') && \
 UUID=$(cat /proc/sys/kernel/random/uuid) && \
 SHORT_ID=$(openssl rand -hex 8) && \
 echo "==========================================" && \
@@ -199,7 +199,6 @@ echo "Short ID: $SHORT_ID" && \
 echo "SNI: www.microsoft.com" && \
 echo "Path: /ws" && \
 echo "=========================================="
-
 ```
 # 📱 Часть 2: Termux-клиент с TrafficBehaviorEmulator
 
