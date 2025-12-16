@@ -184,15 +184,22 @@ ufw allow 80/tcp
 ufw allow 443/tcp
 ufw --force enable
 
+KEYS=$(/usr/local/bin/xray x25519) && \
+PRIVATE_KEY=$(echo "$KEYS" | awk '/Private key:/ {print $3}') && \
+PUBLIC_KEY=$(echo "$KEYS" | awk '/Public key:/ {print $3}') && \
+UUID=$(cat /proc/sys/kernel/random/uuid) && \
+SHORT_ID=$(openssl rand -hex 8) && \
+echo "==========================================" && \
+echo "Сервер настроен!" && \
+echo "IP: $(curl -s ifconfig.me)" && \
+echo "UUID: $UUID" && \
+echo "Private Key: $PRIVATE_KEY" && \
+echo "Public Key: $PUBLIC_KEY" && \
+echo "Short ID: $SHORT_ID" && \
+echo "SNI: www.microsoft.com" && \
+echo "Path: /ws" && \
 echo "=========================================="
-echo "Сервер настроен!"
-echo "IP: $(curl -s ifconfig.me)"
-echo "UUID: $UUID"
-echo "Public Key: $PUBLIC_KEY"
-echo "Short ID: $SHORT_ID"
-echo "SNI: www.microsoft.com"
-echo "Path: /ws"
-echo "=========================================="
+
 ```
 # 📱 Часть 2: Termux-клиент с TrafficBehaviorEmulator
 
