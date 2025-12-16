@@ -209,7 +209,7 @@ echo "=========================================="
 pkg update && pkg upgrade -y
 pkg install python git nodejs wget curl openssl-tool -y
 pip install --upgrade pip
-pip install cryptography pyOpenSSL aiohttp[speedups] websockets numpy
+pip install --user cryptography pyOpenSSL "aiohttp[speedups]" websockets numpy
 ```
 # Установка v2ray-core для Android
 ```
