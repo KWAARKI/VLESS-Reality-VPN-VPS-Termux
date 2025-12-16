@@ -3,16 +3,18 @@
 
 # Установка XRay с Reality + WebSocket маскировка
 # 1. Установка XRay
-bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install
+```bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install```
 
 # 2. Генерация ключей
+```
 xray x25519 > /tmp/key.txt
 PRIVATE_KEY=$(grep "Private" /tmp/key.txt | awk '{print $3}')
 PUBLIC_KEY=$(grep "Public" /tmp/key.txt | awk '{print $3}')
 UUID=$(xray uuid)
 SHORT_ID=$(openssl rand -hex 4)
-
+```
 # 3. Создание конфига с WebSocket (для лучшей маскировки)
+```
 cat > /usr/local/etc/xray/config.json << EOF
 {
   "log": {
@@ -115,8 +117,9 @@ cat > /usr/local/etc/xray/config.json << EOF
   }
 }
 EOF
-
+```
 # 4. Настройка Nginx как прикрытие
+```
 apt install nginx -y
 cat > /etc/nginx/sites-available/reality-proxy << 'EOF'
 server {
@@ -148,15 +151,18 @@ server {
     }
 }
 EOF
-
+```
+```
 ln -s /etc/nginx/sites-available/reality-proxy /etc/nginx/sites-enabled/
 systemctl restart nginx
-
+```
 # 5. Запуск XRay
+```
 systemctl enable xray
 systemctl restart xray
-
+```
 # 6. Фаервол
+```
 ufw allow 22/tcp
 ufw allow 80/tcp
 ufw allow 443/tcp
@@ -171,23 +177,25 @@ echo "Short ID: $SHORT_ID"
 echo "SNI: www.microsoft.com"
 echo "Path: /ws"
 echo "=========================================="
-
+```
 # 📱 Часть 2: Termux-клиент с TrafficBehaviorEmulator
 
 # Шаг 1: Установка Termux и зависимостей
 
 # В Termux:
+```
 pkg update && pkg upgrade -y
 pkg install python git nodejs wget curl openssl-tool -y
 pip install --upgrade pip
 pip install cryptography pyOpenSSL aiohttp[speedups] websockets numpy
-
+```
 # Установка v2ray-core для Android
+```
 wget https://github.com/v2fly/v2ray-core/releases/download/v5.12.0/v2ray-android-arm64-v8a.zip
 unzip v2ray-android-arm64-v8a.zip -d $PREFIX/share/v2ray/
 chmod +x $PREFIX/share/v2ray/v2ray $PREFIX/share/v2ray/v2ctl
 ln -s $PREFIX/share/v2ray/v2ray $PREFIX/bin/v2ray
-
+```
 # Шаг 2: Создание интеллектуального клиента с эмуляцией
 
 Файл: ~/smart_vpn.py
