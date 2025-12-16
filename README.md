@@ -123,6 +123,8 @@ EOF
 # 4. Настройка Nginx как прикрытие
 ```
 apt install nginx -y
+```
+```
 cat > /etc/nginx/sites-available/reality-proxy << 'EOF'
 server {
     listen 80;
