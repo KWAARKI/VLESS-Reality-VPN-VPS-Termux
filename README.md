@@ -209,6 +209,7 @@ echo "=========================================="
 pkg update && pkg upgrade -y
 pkg install python git nodejs wget curl openssl-tool -y
 pip install --upgrade pip
+pkg install cmake ninja pkg-config -y
 pip install --user cryptography pyOpenSSL "aiohttp[speedups]" websockets numpy
 ```
 # Установка v2ray-core для Android
