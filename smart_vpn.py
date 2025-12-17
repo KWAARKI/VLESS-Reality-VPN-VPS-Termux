@@ -531,22 +531,22 @@ def get_user_config() -> dict:
             print(f"Ошибка загрузки конфига: {e}")
     
     # Запрашиваем новые данные
-            print("Пожалуйста, введите данные для конфигурации VPN:")
+    print("Пожалуйста, введите данные для конфигурации VPN:")
     
-            server_ip = input("Введите IP-адрес сервера (server_ip, из шага 1): ").strip()
-            uuid = input("Введите UUID (uuid, из шага 2): ").strip()
-            public_key = input("Введите публичный ключ (public_key, из шага 2): ").strip()
-            short_id = input("Введите короткий идентификатор (short_id, из шага 2): ").strip()
+    server_ip = input("Введите IP-адрес сервера (server_ip, из шага 1): ").strip()
+    uuid = input("Введите UUID (uuid, из шага 2): ").strip()
+    public_key = input("Введите публичный ключ (public_key, из шага 2): ").strip()
+    short_id = input("Введите короткий идентификатор (short_id, из шага 2): ").strip()
     
-            local_port_input = input("Введите локальный порт (local_port) [по умолчанию 1080]: ").strip()
-            local_port = int(local_port_input) if local_port_input else 1080
+    local_port_input = input("Введите локальный порт (local_port) [по умолчанию 1080]: ").strip()
+    local_port = int(local_port_input) if local_port_input else 1080
     
-            config = {
-                "server_ip": server_ip,
-                "uuid": uuid,
-                "public_key": public_key,
-                "short_id": short_id,
-                "local_port": local_port
+    config = {
+        "server_ip": server_ip,
+        "uuid": uuid,
+        "public_key": public_key,
+        "short_id": short_id,
+        "local_port": local_port
     }
     
     # Сохраняем конфиг
@@ -560,25 +560,49 @@ def get_user_config() -> dict:
     return config
 
 
+def save_user_config(config: dict):
+    """Сохранение конфигурации в файл"""
+    config_filename = "vpn_config.json"
+    try:
+        with open(config_filename, "w", encoding='utf-8') as f:
+            json.dump(config, f, indent=2, ensure_ascii=False)
+        print(f"Конфигурация сохранена в {config_filename}")
+    except Exception as e:
+        print(f"Ошибка сохранения конфига: {e}")
+
+
 async def main_async():
- config = get_user_config()
+    # Получаем конфиг
+    config = get_user_config()
     
     # Список полей для проверки
     required_fields = ["server_ip", "uuid", "public_key", "short_id"]
     updated = False
 
+    # Проверяем, есть ли все поля в конфиге
     for field in required_fields:
-        if not config.get(field):
-            # Запрашиваем ввод у пользователя, если поля нет
-            val = input(f"Введите {field}: ").strip()
-            config[field] = val
-            updated = True
+        current_value = config.get(field)
+        if not current_value or current_value.strip() == "":
+            # Запрашиваем ввод у пользователя, если поле пустое
+            val = input(f"Введите {field} (текущее: '{current_value}'): ").strip()
+            if val:  # Сохраняем только если ввели что-то
+                config[field] = val
+                updated = True
     
-    # Если мы что-то добавили — сохраняем в файл
+    # Если были изменения — сохраняем
     if updated:
         save_user_config(config)
-
-    # ... далее ваш код создания RealityClient ...
+    
+    # Проверяем, что у нас есть все необходимые данные
+    missing_fields = [field for field in required_fields if not config.get(field)]
+    if missing_fields:
+        print(f"Ошибка: отсутствуют обязательные поля: {missing_fields}")
+        print("Пожалуйста, создайте файл vpn_config.json вручную или запустите скрипт заново.")
+        return
+    
+    print(f"Подключение к серверу {config['server_ip']}...")
+    
+    # Создаем клиент
     client = RealityClient(
         config["server_ip"],
         config["uuid"],
@@ -604,6 +628,4 @@ def main():
 
 
 if __name__ == "__main__":
-
     main()
-
