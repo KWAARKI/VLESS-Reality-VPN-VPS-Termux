@@ -531,22 +531,22 @@ def get_user_config() -> dict:
             print(f"Ошибка загрузки конфига: {e}")
     
     # Запрашиваем новые данные
-    print("Пожалуйста, введите данные для конфигурации VPN:")
+            print("Пожалуйста, введите данные для конфигурации VPN:")
     
-    server_ip = input("Введите IP-адрес сервера (server_ip, из шага 1): ").strip()
-    uuid = input("Введите UUID (uuid, из шага 2): ").strip()
-    public_key = input("Введите публичный ключ (public_key, из шага 2): ").strip()
-    short_id = input("Введите короткий идентификатор (short_id, из шага 2): ").strip()
+            server_ip = input("Введите IP-адрес сервера (server_ip, из шага 1): ").strip()
+            uuid = input("Введите UUID (uuid, из шага 2): ").strip()
+            public_key = input("Введите публичный ключ (public_key, из шага 2): ").strip()
+            short_id = input("Введите короткий идентификатор (short_id, из шага 2): ").strip()
     
-    local_port_input = input("Введите локальный порт (local_port) [по умолчанию 1080]: ").strip()
-    local_port = int(local_port_input) if local_port_input else 1080
+            local_port_input = input("Введите локальный порт (local_port) [по умолчанию 1080]: ").strip()
+            local_port = int(local_port_input) if local_port_input else 1080
     
-    config = {
-        "server_ip": server_ip,
-        "uuid": uuid,
-        "public_key": public_key,
-        "short_id": short_id,
-        "local_port": local_port
+            config = {
+                "server_ip": server_ip,
+                "uuid": uuid,
+                "public_key": public_key,
+                "short_id": short_id,
+                "local_port": local_port
     }
     
     # Сохраняем конфиг
@@ -606,3 +606,4 @@ def main():
 if __name__ == "__main__":
 
     main()
+
