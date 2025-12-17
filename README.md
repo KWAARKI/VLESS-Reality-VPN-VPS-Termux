@@ -205,22 +205,6 @@ echo "=========================================="
 # Шаг 1: Установка Termux и зависимостей
 
 # В Termux:
-```
-pkg update && pkg upgrade -y
-pkg install python git nodejs wget curl openssl-tool -y
-pip install --upgrade pip
-pkg install cmake ninja pkg-config -y
-pip install --user cryptography pyOpenSSL "aiohttp[speedups]" websockets numpy
-```
-# Установка v2ray-core для Android
-```
-wget https://github.com/v2fly/v2ray-core/releases/download/v5.12.0/v2ray-android-arm64-v8a.zip
-unzip v2ray-android-arm64-v8a.zip -d $PREFIX/share/v2ray/
-chmod +x $PREFIX/share/v2ray/v2ray $PREFIX/share/v2ray/v2ctl
-ln -s $PREFIX/share/v2ray/v2ray $PREFIX/bin/v2ray
-```
-# Шаг 2: Создание интеллектуального клиента с эмуляцией
-
 Файл: ~/smart_vpn.py
 Файл: ~/install_client.sh
 Файл: ~/setup-android-vpn.sh       
