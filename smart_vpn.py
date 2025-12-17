@@ -561,24 +561,24 @@ def get_user_config() -> dict:
 
 
 async def main_async():
-    """Основная асинхронная функция"""
-    config = get_user_config()
+ config = get_user_config()
     
-    # Проверка обязательных полей
+    # Список полей для проверки
     required_fields = ["server_ip", "uuid", "public_key", "short_id"]
+    updated = False
+
     for field in required_fields:
         if not config.get(field):
-            print(f"Ошибка: отсутствует обязательное поле '{field}'")
-            return
+            # Запрашиваем ввод у пользователя, если поля нет
+            val = input(f"Введите {field}: ").strip()
+            config[field] = val
+            updated = True
     
-    print(f"\nПодключение к серверу {config['server_ip']}...")
-    print(f"UUID: {config['uuid']}")
-    print(f"Публичный ключ: {config['public_key'][:20]}...")
-    print(f"Short ID: {config['short_id']}")
-    print(f"Локальный прокси: 127.0.0.1:{config.get('local_port', 1080)}")
-    print("\nДля остановки нажмите Ctrl+C\n")
-    
-    # Создаем клиент
+    # Если мы что-то добавили — сохраняем в файл
+    if updated:
+        save_user_config(config)
+
+    # ... далее ваш код создания RealityClient ...
     client = RealityClient(
         config["server_ip"],
         config["uuid"],
@@ -604,4 +604,5 @@ def main():
 
 
 if __name__ == "__main__":
+
     main()
